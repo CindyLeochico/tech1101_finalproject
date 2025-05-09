@@ -1,4 +1,5 @@
-function myFunction() {
+// Function to toggle responsive navigation
+function toggleNavigation() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
@@ -7,49 +8,96 @@ function myFunction() {
   }
 }
 
-document.getElementById("myBtn").onclick = myFunction;
+// Add event listener for button click
+
 let inputText = document.getElementById("myTxtInput");
-// async function
+
+// Async function to fetch data
 async function fetchAsync(url) {
-  // await response of fetch call
-  let response = await fetch(url);
-  // only proceed once promise is resolved
-  let data = await response.json();
-  // only proceed once second promise is resolved
-  return data;
-}
-//let pObj=fetchAsync("https://api.exchangerate-api.com/v4/latest/USD");
-//pObj.then(obj=>console.log(obj.rates.CAD));
-/*
-function printValues(obj) {
-    for(var k in obj) {
-        if(obj[k] instanceof Object) {
-            printValues(obj[k]);
-        } else {
-            console.log(obj[k]);
-        };
+  try {
+    let response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-};
-*/
-function printValues(obj) {
-  for (var news of obj.articles) {
-    //console.log(news["title"]);
-    document.write('<link rel="stylesheet" href="styles.css">');
-    document.write(
-      `<div class="jumbotron-news"> <h2>${news["title"]}</h2> <img width=400px src=${news["image"]}> <p>${news["content"]}</p> </div>`
-    );
-    //  console.log(news["image"]);
-    //document.write(``);
-    //  console.log(news["content"]);
-    //document.write(``);
-    document.write("<br>");
-    document.write("<br>");
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error: ", error);
+    alert("Failed to fetch news. Please try again later.");
   }
 }
-function myFunction() {
-  let topic = inputText.value;
-  //https://gnews.io/api/v4/search?q=calgary&max=2&country=ca&token=96e20d8a142eb676d6804f79a9d6d9ba
-  let queryString = `https://gnews.io/api/v4/search?q=${topic}&country=ca&max=10&token=96e20d8a142eb676d6804f79a9d6d9ba`;
-  let jsonObject = fetchAsync(queryString);
-  jsonObject.then((obj) => printValues(obj));
+
+// Function to display news articles
+// Modal functionality
+const modal = document.getElementById("myModal");
+const closeBtn = modal.querySelector(".close");
+const modalBody = modal.querySelector(".modal-body");
+
+// Close modal
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// Close modal when clicking outside of it
+window.addEventListener("click", (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Fetch news and display in the modal
+async function fetchNews() {
+  const inputText = document.getElementById("myTxtInput").value.trim();
+
+  if (!inputText) {
+    alert("Please enter a topic name.");
+    return;
+  }
+
+  const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(
+    inputText
+  )}&country=ca&max=10&token=96e20d8a142eb676d6804f79a9d6d9ba`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data.articles || data.articles.length === 0) {
+      alert("No news found for the given topic.");
+      return;
+    }
+
+    displayNews(data.articles);
+    modal.style.display = "block";
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    alert("Failed to fetch news. Please try again later.");
+  }
 }
+
+// Display news in modal
+function displayNews(articles) {
+  modalBody.innerHTML = ""; // Clear previous content
+
+  articles.forEach((article) => {
+    const articleDiv = document.createElement("div");
+    articleDiv.className = "news-article";
+
+    articleDiv.innerHTML = `
+  <h3>${article.title}</h3>
+  <img src="${article.image || "placeholder.jpg"}" alt="${
+      article.title
+    }" style="width: 60%; max-height: 200px; object-fit: cover; display: block; margin: 10px auto;">
+  <p>${article.description || "Description not available."}</p>
+`;
+
+    modalBody.appendChild(articleDiv);
+  });
+}
+
+// Add event listener to the button
+document.querySelector(".myBtn").addEventListener("click", fetchNews);

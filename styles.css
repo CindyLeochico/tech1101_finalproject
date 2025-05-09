@@ -50,10 +50,6 @@ b {
   color: #f67009;
 }
 
-/* .white {
-  color: white;
-} */
-
 img {
   max-width: 100%;
 }
@@ -132,11 +128,7 @@ p {
   box-sizing: border-box;
 }
 
-.card-skill {
-  background-size: cover;
-  background-repeat: no-repeat;
 
-}
 
 .card {
   background-size: cover;
@@ -179,25 +171,15 @@ p {
 }
 
 /* Style the counter cards */
-.card-skill {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
-
+.card,
+.card-skill,
 .card-profile {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 16px;
   text-align: center;
   background-color: #f1f1f1;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #gtco-header-navbar {
@@ -321,7 +303,6 @@ p {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-bottom: 0;
-  overflow: hidden;
   min-height: 500px;
 }
 
@@ -382,7 +363,7 @@ p {
   position: relative;
 }
 
-.jumbotron-news :before {
+.jumbotron-news ::content :before {
   position: absolute;
   display: block;
   opacity: 0.8;
@@ -414,8 +395,6 @@ p {
   border-top-right-radius: 5px;
   margin-bottom: 0;
   overflow: hidden;
-  min-height: 500px;
-
   min-height: 100vh;
   display: grid;
   place-content: center;
@@ -455,10 +434,6 @@ p {
   background-color: rgba(255, 255, 255, 0);
 }
 
-.card-skill {
-  height: 450px;
-  padding: 50px;
-}
 
 .card {
   height: 700px;
@@ -658,4 +633,53 @@ td {
   text-align: justify;
   padding: 10px;
 
+}
+
+/* The news Button */
+.news-article {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.news-article img {
+  display: block;
+  margin: 10px 0;
+}
+
+.news-article h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+/* Social Media Icons */
+.social-icons .fa {
+  padding: 15px;
+  font-size: 20px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px;
+  border-radius: 50%;
+  color: white;
+  background-color: #7D7C7C;
+  transition: 0.3s;
+}
+
+.social-icons .fa:hover {
+  opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3b5998;
+}
+
+.fa-linkedin {
+  background: #0077b5;
+}
+
+.fa-github {
+  background: #333;
 }
